@@ -12,6 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "express-handlebars": "^3.0.0",
+    "mysql": "^2.16.0",
     "nodemon": "^2.0.2"
   }
 }

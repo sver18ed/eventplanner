@@ -1,6 +1,7 @@
 FROM node:13.5.0
 
 EXPOSE 8080
+EXPOSE 9229
 
 WORKDIR /web-application/
 
