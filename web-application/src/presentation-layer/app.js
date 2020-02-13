@@ -1,4 +1,5 @@
 const path = require('path')
+const bodyParser = require('body-parser')
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
 
@@ -9,6 +10,10 @@ const app = express()
 
 // Setup express-handlebars.
 app.set('views', path.join(__dirname, 'views'))
+
+app.use(bodyParser.urlencoded({
+	extended: false
+}))
 
 app.engine('hbs', expressHandlebars({
 	extname: 'hbs',
