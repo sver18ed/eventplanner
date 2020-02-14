@@ -1,0 +1,37 @@
+<div class="content">
+    <h2>Create Event</h2>
+    <p>Create a new event using the form below.</p>
+</div>
+
+<form action="" method="POST">
+
+    <div class="form-group">
+        <div>
+            <label>Title:</label>
+        </div>
+        <div>
+            <input name="title" value="{{title}}" class="form-input" type="text" id="input-title" placeholder="Title">
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <label>Description:</label>
+        </div>
+        <div>
+            <input name="description" value="{{description}}" class="form-input" type="text" id="input-description" placeholder="Description">
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <label>Date & time:</label>
+        </div>
+        <div>
+            <input name="dateTime" value="{{dateTime}}" class="form-input" type="datetime" id="input-dateTime">
+        </div>
+    </div>
+
+    <input type="submit" value="Create Event">
+
+</form>

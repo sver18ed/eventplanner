@@ -1,0 +1,33 @@
+<div class="content">
+<h1>Event</h1>
+{{#if errors.length}}
+	<p>Oh no, something went wrong:</p>
+	<ul>
+		{{#each errors}}
+			<li>{{this}}</li>
+		{{/each}}
+	</ul>
+{{else}}
+	
+	{{#if event}}
+		<dl>
+					
+			<dt>Id:</dt>
+			<dd>{{event.id}}</dd>
+			
+			<dt>Title:</dt>
+			<dd>{{event.title}}</dd>
+
+            <dt>Description:</dt>
+			<dd>{{event.description}}</dd>
+
+            <dt>DateTime:</dt>
+			<dd>{{event.dateTime}}</dd>
+			
+		</dl>
+	{{else}}
+		<p>No, that event doesn't exist.</p>
+	{{/if}}
+	
+{{/if}}
+</div>
