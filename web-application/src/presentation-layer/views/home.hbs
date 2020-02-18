@@ -1,6 +1,8 @@
 <h1 class="is-size-1">Welcome to <em>Eventriloquist</em></h1>
 <p>This is a website that lets you create events and share them with your friends!</p>
 
+
+
 <div class="container col-sm-4 col-md-7 col-lg-4 mt-5">
     <div class="card">
         <h3 class="card-header" id="monthAndYear"></h3>
@@ -19,7 +21,61 @@
             </tr>
             </thead>
 
-            <tbody id="calendar-body">
+            <tbody class= "calendar-body" id="calendar-body">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
 
             </tbody>
         </table>
@@ -164,11 +220,13 @@
 
                 else {
                     let cell = document.createElement("td");
+                    let anchor = document.createElement("a");
                     let cellText = document.createTextNode(date);
                     if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
                         cell.classList.add("bg-info");
                     } // color today's date
-                    cell.appendChild(cellText);
+                    cell.appendChild(anchor);
+                    anchor.appendChild(cellText);
                     row.appendChild(cell);
                     date++;
                 }
@@ -181,6 +239,7 @@
 
     }
 </script>
+
 
 
 
