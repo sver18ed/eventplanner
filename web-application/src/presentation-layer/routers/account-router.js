@@ -29,6 +29,8 @@ router.post("/sign-in", function(request, response){
 	accountManager.getAccountByUsername(username, function(errors, account){
 		if(request.body.username == account.username && request.body.password == account.password){
 			//request.session.isLoggedIn = true
+			request.session.key = request.body.username
+			//request.session.cookie.expires = 6000
 			response.redirect("/")
 		}else{
 			response.render("accounts-sign-in.hbs")

@@ -5,7 +5,8 @@ const router = express.Router()
 
 router.get("/", function(request, response){
     eventManager.getAllEvents(function(errors, events){
-		console.log(errors, events)
+		//console.log(errors, events)
+		request.session = null
 		const model = {
 			errors: errors,
 			events: events

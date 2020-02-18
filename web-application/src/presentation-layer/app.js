@@ -2,6 +2,15 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
+const redis = require('redis')
+const session = require('express-session')
+
+let redisStore = require('connect-redis')(session)
+let redisClient = redis.createClient(6379, "redis")
+
+redisClient.on('error', function(err){
+	console.log('Something went wrong ', err)
+  });
 
 const variousRouter = require('./routers/various-router')
 const accountRouter = require('./routers/account-router')
@@ -12,6 +21,14 @@ const app = express()
 // Setup express-handlebars.
 app.set('views', path.join(__dirname, 'views'))
 
+app.use(session({
+	store: new redisStore({ client: redisClient }),
+	secret: "ssshhhhh",
+	saveUninitialized: false,
+	resave: false
+}))
+
+app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
 	extended: false
 }))
