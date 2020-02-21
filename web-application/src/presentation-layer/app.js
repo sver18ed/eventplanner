@@ -28,6 +28,12 @@ app.use(session({
 	resave: false
 }))
 
+// Add info about if the user is logged in or not.
+app.use(function(request, response, next){
+	response.locals.isLoggedIn = request.session.isLoggedIn
+	next()
+})
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
 	extended: false

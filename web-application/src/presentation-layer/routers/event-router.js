@@ -23,7 +23,9 @@ router.get("/create", function(request, response){
 // POST /events/create
 router.post("/create", function(request, response){
 	
-	const event = {title: request.body.title, description: request.body.description, dateTime: request.body.dateTime}
+	const username = request.session.key
+
+	const event = {title: request.body.title, accountUsername: username, description: request.body.description, dateTime: request.body.dateTime}
 	
 	// if(response.locals.isLoggedIn){
 	// 	validationErrors.push("Not logged in")
@@ -31,12 +33,8 @@ router.post("/create", function(request, response){
 	
 	// TODO: you probably want to use other validation rules (min/max length on username, min/max values on age).
 		
-    eventManager.createEvent(event, function(error, id){
-        if(error){
-            
-        }else{
-            response.redirect("/events/"+id)
-        }
+    eventManager.createEvent(event, function(errors, id){
+        response.redirect("/events/"+id)
     })		
 })
 

@@ -28,9 +28,9 @@ router.post("/sign-in", function(request, response){
 
 	accountManager.getAccountByUsername(username, function(errors, account){
 		if(request.body.username == account.username && request.body.password == account.password){
-			//request.session.isLoggedIn = true
-			request.session.key = request.body.username
-			//request.session.cookie.expires = 6000
+			request.session.isLoggedIn = true
+			request.session.key = account.username
+			request.session.cookie.expires = 60000
 			response.redirect("/")
 		}else{
 			response.render("accounts-sign-in.hbs")
@@ -38,8 +38,25 @@ router.post("/sign-in", function(request, response){
 	})
 })
 
+router.get("/sign-out", function(request, response){
+
+	if(request.session.isLoggedIn){
+
+		request.session.destroy(function(error){
+
+			if(error){
+				console.log(error)
+			}else{
+				response.redirect("/")
+			}
+		})
+	}
+})
+
 router.get("/", function(request, response){
+
 	accountManager.getAllAccounts(function(errors, accounts){
+
 		console.log(errors, accounts)
 		const model = {
 			errors: errors,

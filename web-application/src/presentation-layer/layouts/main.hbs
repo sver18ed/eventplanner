@@ -37,7 +37,11 @@
 					<div class="navbar-item">
 						<div class="buttons">
 							<a class="button is-primary" href="/accounts/sign-up">Sign up</a>
-							<a class="button is-dark" href="/accounts/sign-in">Sign in</a>
+							{{#if isLoggedIn}}
+								<a class="button is-dark" href="/accounts/sign-out">Sign out</a>
+							{{else}}
+								<a class="button is-dark" href="/accounts/sign-in">Sign in</a>
+							{{/if}}
 						</div>
 					</div>
 				</div>

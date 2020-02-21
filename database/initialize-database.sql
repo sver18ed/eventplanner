@@ -10,8 +10,11 @@ CREATE TABLE IF NOT EXISTS accounts (
 CREATE TABLE IF NOT EXISTS events (
 	id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 	title VARCHAR(50) NOT NULL,
+	accountUsername VARCHAR(50) NOT NULL,
 	description VARCHAR(30) NOT NULL,
-	dateTime DATETIME NOT NULL
+	dateTime DATETIME NOT NULL,
+	CONSTRAINT FK_accountEvent FOREIGN KEY (accountUsername)
+	REFERENCES accounts(username)
 );
 
 -- Create a dummy account for testing.

@@ -48,8 +48,8 @@ exports.getEventById = function(id, callback){
 */
 exports.createEvent = function(event, callback){
 	
-	const query = `INSERT INTO events (title, description, dateTime) VALUES (?, ?, ?)`
-	const values = [event.title, event.description, event.dateTime]
+	const query = `INSERT INTO events (title, accountUsername, description, dateTime) VALUES (?, ?, ?, ?)`
+	const values = [event.title, event.accountUsername, event.description, event.dateTime]
 	
 	db.query(query, values, function(error, results){
 		if(error){
