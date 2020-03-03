@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS events (
 	title VARCHAR(50) NOT NULL,
 	accountUsername VARCHAR(50) NOT NULL,
 	description VARCHAR(30) NOT NULL,
-	dateTime DATETIME NOT NULL,
+	date DATE NOT NULL,
 	CONSTRAINT FK_accountEvent FOREIGN KEY (accountUsername)
 	REFERENCES accounts(username)
 );

@@ -26,7 +26,7 @@ module.exports = function({eventManager}){
 		
 		const username = request.session.key
 
-		const event = {title: request.body.title, accountUsername: username, description: request.body.description, dateTime: request.body.dateTime}
+		const event = {title: request.body.title, accountUsername: username, description: request.body.description, date: request.body.date}
 		
 		// if(response.locals.isLoggedIn){
 		// 	validationErrors.push("Not logged in")
@@ -38,6 +38,20 @@ module.exports = function({eventManager}){
 			response.redirect("/events/"+id)
 		})		
 	})
+
+	// router.get('/:date', function(request, response){
+		
+	// 	const date = request.params.date
+		
+	// 	eventManager.getEventsByDate(date, function(errors, events){
+	// 		const model = {
+	// 			errors: errors,
+	// 			events: events
+	// 		}
+	// 		response.render("events-show-one.hbs", model)
+	// 	})
+		
+	// })
 
 	router.get('/:id', function(request, response){
 		

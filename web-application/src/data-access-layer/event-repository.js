@@ -22,6 +22,20 @@ module.exports = function({}){
 				}
 			})	
 		},
+
+		getEventsByDate: function(date, callback){
+		
+			const query = `SELECT * FROM events WHERE date = ?`
+			const values = [date]
+			
+			db.query(query, values, function(error, events){
+				if(error){
+					callback(['databaseError'], null)
+				}else{
+					callback([], events)
+				}
+			})
+		},
 		/*
 		Retrieves the event with the given id.
 		Possible errors: databaseError
@@ -42,14 +56,14 @@ module.exports = function({}){
 		},
 		/*
 		Creates a new event.
-		event: {title: "The Title", description: "The description", dateTime: "The date & time"}
+		event: {title: "The Title", description: "The description", date: "The date"}
 		Possible errors: databaseError, usernameTaken
 		Success value: The id of the new account.
 		*/
 		createEvent: function(event, callback){
 		
-			const query = `INSERT INTO events (title, accountUsername, description, dateTime) VALUES (?, ?, ?, ?)`
-			const values = [event.title, event.accountUsername, event.description, event.dateTime]
+			const query = `INSERT INTO events (title, accountUsername, description, date) VALUES (?, ?, ?, ?)`
+			const values = [event.title, event.accountUsername, event.description, event.date]
 			
 			db.query(query, values, function(error, results){
 				if(error){
