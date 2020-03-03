@@ -31,7 +31,7 @@ module.exports = function({accountManager}){
 			if(request.body.username == account.username && request.body.password == account.password){
 				request.session.isLoggedIn = true
 				request.session.key = account.username
-				request.session.cookie.expires = 60000
+				request.session.cookie.expires = 1000 * 1000
 				response.redirect("/")
 			}else{
 				response.render("accounts-sign-in.hbs")

@@ -25,6 +25,7 @@ module.exports = function({}){
 
 		getEventsByDate: function(date, callback){
 		
+			console.log(date)
 			const query = `SELECT * FROM events WHERE date = ?`
 			const values = [date]
 			
@@ -43,14 +44,18 @@ module.exports = function({}){
 		*/
 		getEventById: function(id, callback){
 		
-			const query = `SELECT * FROM events WHERE id = ? LIMIT 1`
+			const query = ` SELECT id, title, accountUsername, description, date FROM events WHERE id = ? LIMIT 1`
 			const values = [id]
 			
 			db.query(query, values, function(error, events){
 				if(error){
 					callback(['databaseError'], null)
 				}else{
-					callback([], events[0])
+					if(events[0] != null) {
+						var date = new Date(events[0].date)
+						events[0].date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate()
+						callback([], events[0])
+					}
 				}
 			})
 		},

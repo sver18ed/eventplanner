@@ -1,5 +1,5 @@
 <div class="content">
-	<h1>All events</h1>
+	<h1>All Events</h1>
 	{{#if errors.length}}
 		<p>Oh no, something went wrong:</p>
 		<ul>
@@ -12,7 +12,7 @@
 		{{#if events.length}}
 			<ul>
 				{{#each events}}
-					<li><a href="/events/{{id}}">{{title}}</a></li>
+					<li><a href="/events/{{date}}/{{id}}">{{title}}</a><p> - Hosted by: {{accountUsername}}</p></li>
 				{{/each}}
 			</ul>
 		{{else}}

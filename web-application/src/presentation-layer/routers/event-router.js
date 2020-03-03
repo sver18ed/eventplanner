@@ -39,21 +39,21 @@ module.exports = function({eventManager}){
 		})		
 	})
 
-	// router.get('/:date', function(request, response){
+	router.get('/:date', function(request, response){
 		
-	// 	const date = request.params.date
+		var date = request.params.date
+		console.log(date)
+		eventManager.getEventsByDate(date, function(errors, events){
+			const model = {
+				errors: errors,
+				events: events
+			}
+			response.render("events-list-all.hbs", model)
+		})
 		
-	// 	eventManager.getEventsByDate(date, function(errors, events){
-	// 		const model = {
-	// 			errors: errors,
-	// 			events: events
-	// 		}
-	// 		response.render("events-show-one.hbs", model)
-	// 	})
-		
-	// })
+	})
 
-	router.get('/:id', function(request, response){
+	router.get('/:date/:id', function(request, response){
 		
 		const id = request.params.id
 		

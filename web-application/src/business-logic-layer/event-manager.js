@@ -23,7 +23,7 @@ module.exports = function({eventRepository}){
 		},
 
 		getEventsByDate: function(date, callback){
-			eventRepository.getEventById(date, callback)
+			eventRepository.getEventsByDate(date, callback)
 		},
 
 		getEventById: function(id, callback){
