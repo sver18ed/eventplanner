@@ -1,4 +1,5 @@
 const path = require('path')
+const awilix = require('awilix')
 const bodyParser = require('body-parser')
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
@@ -13,8 +14,29 @@ redisClient.on('error', function(err){
   });
 
 const variousRouter = require('./routers/various-router')
-const accountRouter = require('./routers/account-router')
-const eventRouter = require('./routers/event-router')
+
+const accountRepository = require('../data-access-layer/account-repository')
+const accountManager = require('../business-logic-layer/account-manager')
+const accountRouter = require('../presentation-layer/routers/account-router')
+
+const eventRepository = require('../data-access-layer/event-repository')
+const eventManager = require('../business-logic-layer/event-manager')
+const eventRouter = require('../presentation-layer/routers/event-router')
+
+const container = awilix.createContainer()
+
+container.register("accountRepository", awilix.asFunction(accountRepository))
+container.register("accountManager", awilix.asFunction(accountManager))
+container.register("accountRouter", awilix.asFunction(accountRouter))
+
+container.register("eventRepository", awilix.asFunction(eventRepository))
+container.register("eventManager", awilix.asFunction(eventManager))
+container.register("eventRouter", awilix.asFunction(eventRouter))
+
+// Retrieve the router, which resolves all other dependencies.
+const theAccountRouter = container.resolve("accountRouter")
+const theEventRouter = container.resolve("eventRouter")
+
 
 const app = express()
 
@@ -50,8 +72,8 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 // Attach all routers.
 app.use('/', variousRouter)
-app.use('/accounts', accountRouter)
-app.use('/events', eventRouter)
+app.use('/accounts', theAccountRouter)
+app.use('/events', theEventRouter)
 
 // Start listening for incoming HTTP requests!
 app.listen(8080, function(){
