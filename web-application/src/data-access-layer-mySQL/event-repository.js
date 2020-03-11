@@ -42,18 +42,16 @@ module.exports = function({}){
 		Possible errors: databaseError
 		Success value: The fetched event, or null if no event has that id.
 		*/
-		getEventById: function(id, callback){
+		getEventById: function(date, id, callback){
 		
-			const query = ` SELECT id, title, accountUsername, description, date FROM events WHERE id = ? LIMIT 1`
-			const values = [id]
+			const query = ` SELECT id, title, accountUsername, description, date FROM events WHERE date = ? AND id = ? LIMIT 1`
+			const values = [date, id]
 			
 			db.query(query, values, function(error, events){
 				if(error){
 					callback(['databaseError'], null)
 				}else{
-					if(events[0] != null) {
-						callback([], events[0])
-					}
+					callback([], events[0])
 				}
 			})
 		},

@@ -15,11 +15,11 @@ redisClient.on('error', function(err){
 
 const variousRouter = require('./routers/various-router')
 
-const accountRepository = require('../data-access-layer-sequelize/account-repository')
+const accountRepository = require('../data-access-layer-mySQL/account-repository')
 const accountManager = require('../business-logic-layer/account-manager')
 const accountRouter = require('../presentation-layer/routers/account-router')
 
-const eventRepository = require('../data-access-layer-sequelize/event-repository')
+const eventRepository = require('../data-access-layer-mySQL/event-repository')
 const eventManager = require('../business-logic-layer/event-manager')
 const eventRouter = require('../presentation-layer/routers/event-router')
 
