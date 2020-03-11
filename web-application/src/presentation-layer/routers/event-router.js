@@ -41,7 +41,7 @@ module.exports = function({eventManager}){
 
 	router.get('/:date', function(request, response){
 		
-		var date = request.params.date
+		const date = request.params.date
 		console.log(date)
 		eventManager.getEventsByDate(date, function(errors, events){
 			const model = {

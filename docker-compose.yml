@@ -17,6 +17,16 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=theRootPassword
       - MYSQL_DATABASE=webAppDatabase
+  # database-postgres:
+  #   image: postgres
+  #   environment: 
+  #     POSTGRES_PASSWORD: postgres
+  #     POSTGRES_USER: postgres
+  #     POSTGRES_DB: postgres_db
+  #   volumes: 
+  #     - ./database-postgres
+  #   ports:
+  #     - "5432:5432"
   redis:
     image: redis
     ports:

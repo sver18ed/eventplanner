@@ -15,11 +15,11 @@ redisClient.on('error', function(err){
 
 const variousRouter = require('./routers/various-router')
 
-const accountRepository = require('../data-access-layer/account-repository')
+const accountRepository = require('../data-access-layer-sequelize/account-repository')
 const accountManager = require('../business-logic-layer/account-manager')
 const accountRouter = require('../presentation-layer/routers/account-router')
 
-const eventRepository = require('../data-access-layer/event-repository')
+const eventRepository = require('../data-access-layer-sequelize/event-repository')
 const eventManager = require('../business-logic-layer/event-manager')
 const eventRouter = require('../presentation-layer/routers/event-router')
 
@@ -74,6 +74,12 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', variousRouter)
 app.use('/accounts', theAccountRouter)
 app.use('/events', theEventRouter)
+
+app.use(function(request, response, next){
+	const error = new Error('Not found -'+request.originalUrl)
+	response.status(404)
+	next(error)
+})
 
 // Start listening for incoming HTTP requests!
 app.listen(8080, function(){

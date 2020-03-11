@@ -52,8 +52,6 @@ module.exports = function({}){
 					callback(['databaseError'], null)
 				}else{
 					if(events[0] != null) {
-						var date = new Date(events[0].date)
-						events[0].date = date.getFullYear() + "-" + date.getMonth() + "-" + date.getDate()
 						callback([], events[0])
 					}
 				}
