@@ -16,6 +16,16 @@ module.exports = function({eventManager}){
 		})
 	})
 
+	router.get("/calendar", function(request, response){
+		eventManager.getAllEvents(function(errors, events){
+			const model = {
+				errors: errors,
+				events: events
+			}
+			response.render("calendar.hbs", model)
+		})
+	})
+
 	// GET /events/create
 	router.get("/create", function(request, response){
 		if(response.locals.isLoggedIn){
