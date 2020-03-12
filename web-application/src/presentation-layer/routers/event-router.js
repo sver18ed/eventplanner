@@ -31,7 +31,7 @@ module.exports = function({eventManager}){
 		if(response.locals.isLoggedIn){
 			response.render("events-create-event.hbs")
 		} else {
-			response.redirect("accounts-sign-in.hbs")
+			response.redirect("/accounts/sign-in")
 		}
 	})
 
