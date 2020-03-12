@@ -1,37 +1,27 @@
-<div class="content">
-    <h2>Create Event</h2>
-    <p>Create a new event using the form below.</p>
+<div class="columns is-centered" style="margin-top: 20%;">
+	<div class="column is-5">
+		<div class="column">
+			<h3 class="title is-3">Create Event</h3>
+		</div>
+		<div class="box">
+			<form class="has-text-left" action="" method="POST">
+
+			<div class="field">
+				<label class="label">Title</label>
+				<input class="input" name="title" value="{{title}}" type="text" id="input-title" placeholder="Title">
+			</div>
+			<div class="field">
+				<label class="label">Description</label>
+                <input class="input" name="description" value="{{description}}" type="text" id="input-description" placeholder="Description">
+			</div>
+            <div class="field">
+				<label class="label">Date</label>
+                <input class="input" name="date" value="{{date}}" type="date" id="input-date">
+			</div>
+
+			<input class="button is-block is-primary is-fullwidth" type="submit" value="Create">
+
+		</form>		
+		</div>
+	</div>
 </div>
-
-<form action="" method="POST">
-
-    <div class="form-group">
-        <div>
-            <label>Title:</label>
-        </div>
-        <div>
-            <input class="input" name="title" value="{{title}}" type="text" id="input-title" placeholder="Title">
-        </div>
-    </div>
-
-    <div>
-        <div>
-            <label>Description:</label>
-        </div>
-        <div>
-            <input class="input" name="description" value="{{description}}" type="text" id="input-description" placeholder="Description">
-        </div>
-    </div>
-
-    <div>
-        <div>
-            <label>Date:</label>
-        </div>
-        <div>
-            <input class="input" name="date" value="{{date}}" type="date" id="input-date">
-        </div>
-    </div>
-
-    <input class="button is-primary" type="submit" value="Create Event">
-    
-</form>

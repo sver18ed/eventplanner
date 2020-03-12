@@ -1,36 +1,40 @@
-<div class="content">
-<h1>{{event.title}}</h1>
-{{#if errors.length}}
-	<p>Oh no, something went wrong:</p>
-	<ul>
-		{{#each errors}}
-			<li>{{this}}</li>
-		{{/each}}
-	</ul>
-{{else}}
-	
-	{{#if event}}
-		<dl>
-					
-			<dt>Id:</dt>
-			<dd>{{event.id}}</dd>
-			
-			<dt>Title:</dt>
-			<dd>{{event.title}}</dd>
-
-			<dt>Host:</dt>
-			<dd>{{event.accountUsername}}</dd>
-
-            <dt>Description:</dt>
-			<dd>{{event.description}}</dd>
-
-            <dt>Date:</dt>
-			<dd>{{event.date}}</dd>
-			
-		</dl>
+<div class="columns is-centered" style="margin-top: 10%;">
+	<div class="column">
+	{{#if errors.length}}
+		<p>Oh no, something went wrong:</p>
+		<ul>
+			{{#each errors}}
+				<li>{{this}}</li>
+			{{/each}}
+		</ul>
 	{{else}}
-		<p>No, that event doesn't exist.</p>
+		
+		{{#if event}}
+			<div class="columns is-centered">
+				<h1 class="title is-1" style="font-style: italic;">{{event.title}}</h1>
+			</div>
+			<div class="columns is-centered">
+				<p>
+					<small>Created by: {{event.accountUsername}} - </small><small><a href="/events/{{event.date}}">{{event.date}}</a></small>
+				</p>
+			</div>
+				<div class="box">
+					<div class="field">
+						<figure class="image">
+							<img src="https://bulma.io/images/placeholders/640x360.png" alt="Image">
+						</figure>
+					</div>
+						<div class="field">
+							<p>
+								{{event.description}}
+							</p>
+					</div>
+				</div>
+						
+		{{else}}
+			<p>No, that event doesn't exist.</p>
+		{{/if}}
+		
 	{{/if}}
-	
-{{/if}}
+	</div>
 </div>

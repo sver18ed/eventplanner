@@ -1,18 +1,31 @@
-<div class="content">
-	<h2>Sign in</h2>
-	<p>Sign in using the form below.</p>
+<div class="columns is-centered" style="margin-top: 20%;">
+	<div class="column is-5">
+		<div class="column">
+			<h3 class="title is-3">Log in</h3>
+		</div>
+		<div id="login-section" class="box">
+			<form class="has-text-left" action="" method="POST">
+
+			<div class="field">
+				<p class="control has-icons-left">
+					<input class="input" name="username" type="text" placeholder="Username">
+					<span class="icon is-small is-left">
+						<i class="fas fa-envelope"></i>
+					</span>
+				</p>
+			</div>
+			<div class="field">
+				<p class="control has-icons-left">
+					<input class="input" name="password" type="password" placeholder="Password">
+					<span class="icon is-small is-left">
+						<i class="fas fa-lock"></i>
+					</span>
+				</p>
+			</div>
+
+			<input class="button is-light" type="submit" value="Login">
+
+		</form>		
+		</div>
+	</div>
 </div>
-
-<form action="" method="POST">
-
-	<div>
-		Username: <input type="text" name="username">
-	</div>
-	
-	<div>
-		Password: <input type="password" name="password">
-	</div>
-
-	<input type="submit" value="Login">
-
-</form>

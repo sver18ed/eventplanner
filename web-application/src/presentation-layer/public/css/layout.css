@@ -3,17 +3,24 @@ html{
 }
 
 body{
-	background-color: rgb(225, 225, 225);
+	background-color: rgb(255, 255, 255);
 	min-height: 100%;
 }
 
-#entire-page{
-	max-width: 800px;
+#navbar{
+	max-width: 80%;
 	margin: 0 auto;
 }
 
 main{
 	padding: 8px;
+	max-width: 60%;
+	margin: 0 auto;
+	height: calc(100vh + 20px);
+}
+
+footer{
+	height: 20px;
 }
 
 
