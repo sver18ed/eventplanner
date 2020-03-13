@@ -1,8 +1,10 @@
-const path = require('path')
 const awilix = require('awilix')
+const bcrypt = require('bcrypt')
 const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
+const path = require('path')
 const redis = require('redis')
 const session = require('express-session')
 
@@ -10,7 +12,7 @@ let redisStore = require('connect-redis')(session)
 let redisClient = redis.createClient(6379, "redis")
 
 redisClient.on('error', function(err){
-	console.log('Something went wrong ', err)
+	console.log('Something went wrong with redis', err)
   });
 
 const variousRouter = require('./routers/various-router')
@@ -37,15 +39,16 @@ container.register("eventRouter", awilix.asFunction(eventRouter))
 const theAccountRouter = container.resolve("accountRouter")
 const theEventRouter = container.resolve("eventRouter")
 
-
 const app = express()
 
-// Setup express-handlebars.
 app.set('views', path.join(__dirname, 'views'))
 
+app.use(cookieParser())
+
+// Setup sessions stored in redis
 app.use(session({
 	store: new redisStore({ client: redisClient }),
-	secret: "ssshhhhh",
+	secret: "saweg324sawt23t54htvbn2dfbdf3412d",
 	saveUninitialized: false,
 	resave: false
 }))
@@ -56,11 +59,13 @@ app.use(function(request, response, next){
 	next()
 })
 
+// Setup bodyParser
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({
 	extended: false
 }))
 
+// Setup express-handlebars.
 app.engine('hbs', expressHandlebars({
 	extname: 'hbs',
 	defaultLayout: 'main',
@@ -75,10 +80,19 @@ app.use('/', variousRouter)
 app.use('/accounts', theAccountRouter)
 app.use('/events', theEventRouter)
 
+// If we get this far it's 404
 app.use(function(request, response, next){
-	const error = new Error('Not found -'+request.originalUrl)
-	response.status(404)
+	const error = new Error('404 - Not found :(')
+	error.status = 404
 	next(error)
+  });
+
+app.use(function(error, request, response, next){
+	response.locals.message = error.message
+	response.locals.error = error
+
+	response.status(error.status || 500)
+	response.render('error.hbs')
 })
 
 // Start listening for incoming HTTP requests!

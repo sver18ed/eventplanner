@@ -12,8 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "awilix": "^4.2.5",
+    "bcrypt": "^4.0.1",
     "body-parser": "^1.19.0",
     "connect-redis": "^4.0.4",
+    "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.17.0",

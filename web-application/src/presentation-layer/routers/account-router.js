@@ -1,62 +1,78 @@
 const express = require('express')
 
-module.exports = function({accountManager}){
+module.exports = function({accountManager}) {
 
 	const router = express.Router()
 
-	router.get("/sign-up", function(request, response){
-		response.render("accounts-sign-up.hbs")
+	// GET /sign-up
+	router.get("/sign-up", function(request, response) {
+		if (request.session.key) {
+			response.redirect('/')
+		} else {
+			response.render("accounts-sign-up.hbs")
+		}
 	})
 	
 	// POST /sign-up
-	router.post("/sign-up", function(request, response){
-	
+	router.post("/sign-up", function(request, response) {
 		const account = {username: request.body.username, password: request.body.password}
 	
-		accountManager.createAccount(account, function(errors, id){
-			response.redirect("/")
-		})
+		if (request.session.key) {
+			response.redirect('/')
+		} else {
+			accountManager.createAccount(account, function(errors, id){
+				response.redirect("/accounts/sign-in")
+			})
+		}
 	})
 	
-	router.get("/sign-in", function(request, response){
-		response.render("accounts-sign-in.hbs")
+	// GET /sign-in
+	router.get("/sign-in", function(request, response) {
+		if (request.session.key) {
+			response.redirect('/')
+		} else {
+			response.render("accounts-sign-in.hbs")
+		}
 	})
 	
 	// POST /sign-in
-	router.post("/sign-in", function(request, response){
+	router.post("/sign-in", function(request, response) {
 	
 		const username = request.body.username
+		const password = request.body.password
 	
-		accountManager.getAccountByUsername(username, function(errors, account){
-			if(request.body.username == account.username && request.body.password == account.password){
+		accountManager.getAccountByUsername(username, function(errors, account) {
+			if(username == account.username && password == account.password) {
 				request.session.isLoggedIn = true
 				request.session.key = account.username
-				request.session.cookie.expires = 1000 * 1000
-				response.redirect("/")
-			}else{
+				// request.session.cookie.expires = 1000 * 1000
+				response.redirect('/')
+			} else {
 				response.render("accounts-sign-in.hbs")
 			}
 		})
 	})
 	
-	router.get("/sign-out", function(request, response){
+	router.get("/sign-out", function(request, response) {
 	
-		if(request.session.isLoggedIn){
+		if(request.session.key) {
 	
-			request.session.destroy(function(error){
+			request.session.destroy(function(error) {
 	
-				if(error){
+				if(error) {
 					console.log(error)
-				}else{
+				} else {
 					response.redirect("/")
 				}
 			})
+		} else {
+			response.redirect("/accounts/sign-in")
 		}
 	})
 	
-	router.get("/", function(request, response){
+	router.get("/", function(request, response) {
 	
-		accountManager.getAllAccounts(function(errors, accounts){
+		accountManager.getAllAccounts(function(errors, accounts) {
 	
 			console.log(errors, accounts)
 			const model = {
@@ -67,11 +83,11 @@ module.exports = function({accountManager}){
 		})
 	})
 	
-	router.get('/:username', function(request, response){
+	router.get('/:username', function(request, response) {
 		
 		const username = request.params.username
 		
-		accountManager.getAccountByUsername(username, function(errors, account){
+		accountManager.getAccountByUsername(username, function(errors, account) {
 			const model = {
 				errors: errors,
 				account: account
