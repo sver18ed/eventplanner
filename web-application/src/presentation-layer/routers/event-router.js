@@ -28,10 +28,10 @@ module.exports = function({eventManager}){
 
 	// GET /events/create
 	router.get("/create", function(request, response){
-		if(response.locals.isLoggedIn){
+		if(request.session.username){
 			response.render("events-create-event.hbs")
 		} else {
-			response.redirect("/accounts/sign-in")
+			response.redirect("/accounts/login")
 		}
 	})
 

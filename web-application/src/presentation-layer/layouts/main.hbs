@@ -64,15 +64,15 @@
 			<div class="navbar-item">
 				<div class="buttons">
 					{{#if isLoggedIn}}
-					<a class="button is-dark" href="/accounts/sign-out">
-						<strong>Sign out</strong>
-					</a>
+					<form action="/accounts/logout" method="POST">
+						<input class="button is-dark" type="submit" value="Logout">
+					</form>
 					{{else}}
-					<a class="button is-primary" href="/accounts/sign-up">
-						<strong>Sign up</strong>
+					<a class="button is-primary" href="/accounts/register">
+						<strong>Register</strong>
 					</a>
-						<a class="button is-light" href="/accounts/sign-in">
-						Log in
+						<a class="button is-light" href="/accounts/login">
+						Login
 					</a>
 					{{/if}}
 				</div>

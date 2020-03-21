@@ -13,7 +13,7 @@ let redisClient = redis.createClient(6379, "redis")
 
 redisClient.on('error', function(err){
 	console.log('Something went wrong with redis', err)
-  });
+  })
 
 const variousRouter = require('./routers/various-router')
 
@@ -39,7 +39,7 @@ container.register("eventRouter", awilix.asFunction(eventRouter))
 const theAccountRouter = container.resolve("accountRouter")
 const theEventRouter = container.resolve("eventRouter")
 
-const app = express()
+const app = module.exports = express()
 
 app.set('views', path.join(__dirname, 'views'))
 
@@ -50,8 +50,20 @@ app.use(session({
 	store: new redisStore({ client: redisClient }),
 	secret: "saweg324sawt23t54htvbn2dfbdf3412d",
 	saveUninitialized: false,
-	resave: false
+	resave: false,
+	cookie: {
+		maxAge: 1000 * 60 * 60,
+		sameSite: true
+	}
 }))
+
+const redirectLogin = (function(request, response, next){
+	if (!request.session.username) {
+		response.redirect('/accounts/login')
+	} else {
+		next()
+	}
+})
 
 // Add info about if the user is logged in or not.
 app.use(function(request, response, next){
@@ -93,9 +105,4 @@ app.use(function(error, request, response, next){
 
 	response.status(error.status || 500)
 	response.render('error.hbs')
-})
-
-// Start listening for incoming HTTP requests!
-app.listen(8080, function(){
-	console.log('Running on 8080!')
 })

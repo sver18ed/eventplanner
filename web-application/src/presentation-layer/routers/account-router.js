@@ -4,58 +4,68 @@ module.exports = function({accountManager}) {
 
 	const router = express.Router()
 
-	// GET /sign-up
-	router.get("/sign-up", function(request, response) {
-		if (request.session.key) {
+	// GET /register
+	router.get("/register", function(request, response) {
+		if (request.session.username) {
 			response.redirect('/')
 		} else {
-			response.render("accounts-sign-up.hbs")
+			response.render("accounts-register.hbs")
 		}
 	})
 	
-	// POST /sign-up
-	router.post("/sign-up", function(request, response) {
+	// POST /register
+	router.post("/register", function(request, response) {
 		const account = {username: request.body.username, password: request.body.password}
 	
-		if (request.session.key) {
+		if (request.session.username) {
 			response.redirect('/')
 		} else {
 			accountManager.createAccount(account, function(errors, id){
-				response.redirect("/accounts/sign-in")
+				response.redirect("/accounts/login")
 			})
 		}
 	})
 	
-	// GET /sign-in
-	router.get("/sign-in", function(request, response) {
-		if (request.session.key) {
+	// GET /login
+	router.get("/login", function(request, response) {
+		if (request.session.username) {
 			response.redirect('/')
 		} else {
-			response.render("accounts-sign-in.hbs")
+			response.render("accounts-login.hbs")
 		}
 	})
 	
-	// POST /sign-in
-	router.post("/sign-in", function(request, response) {
+	// POST /login
+	router.post("/login", function(request, response) {
 	
 		const username = request.body.username
 		const password = request.body.password
+
+		if (!username && !password) {
+			response.send('Please enter Username and Password!')
+			response.end()
+		}
 	
 		accountManager.getAccountByUsername(username, function(errors, account) {
 			if(username == account.username && password == account.password) {
 				request.session.isLoggedIn = true
-				request.session.key = account.username
-				// request.session.cookie.expires = 1000 * 1000
+				request.session.username = account.username
 				response.redirect('/')
 			} else {
-				response.render("accounts-sign-in.hbs")
+				response.render("accounts-login.hbs")
 			}
 		})
 	})
+
+	// GET /logout
+	router.get("/logout", function(request, response) {
+		response.redirect('/accounts/login')
+	})
 	
-	router.get("/sign-out", function(request, response) {
+	// POST /logout
+	router.post("/logout", function(request, response) {
 	
-		if(request.session.key) {
+		if(request.session.username) {
 	
 			request.session.destroy(function(error) {
 	
@@ -66,10 +76,11 @@ module.exports = function({accountManager}) {
 				}
 			})
 		} else {
-			response.redirect("/accounts/sign-in")
+			response.redirect("/accounts/login")
 		}
 	})
 	
+	// GET /
 	router.get("/", function(request, response) {
 	
 		accountManager.getAllAccounts(function(errors, accounts) {
