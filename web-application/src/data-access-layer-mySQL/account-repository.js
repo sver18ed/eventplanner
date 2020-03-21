@@ -4,11 +4,6 @@ module.exports = function({}){
 
 	return {
 
-		/*
-		Retrieves all accounts ordered by username.
-		Possible errors: databaseError
-		Success value: The fetched accounts in an array.
-		*/
 		getAllAccounts: function(callback){
 			
 			const query = `SELECT * FROM accounts ORDER BY username`
@@ -21,14 +16,8 @@ module.exports = function({}){
 					callback([], accounts)
 				}
 			})
-			
 		},
 
-		/*
-		Retrieves the account with the given username.
-		Possible errors: databaseError
-		Success value: The fetched account, or null if no account has that username.
-		*/
 		getAccountByUsername: function(username, callback){
 			
 			const query = `SELECT * FROM accounts WHERE username = ? LIMIT 1`
@@ -44,12 +33,6 @@ module.exports = function({}){
 			
 		},
 
-		/*
-		Creates a new account.
-		account: {username: "The username", password: "The password"}
-		Possible errors: databaseError, usernameTaken
-		Success value: The id of the new account.
-		*/
 		createAccount: function(account, callback){
 		
 			const query = `INSERT INTO accounts (username, password) VALUES (?, ?)`

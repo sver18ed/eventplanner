@@ -1,33 +1,31 @@
 
 
-module.exports = function({eventRepository}){
+module.exports = function({eventRepository}) {
 	return {
-		getAllEvents: function(callback){
-			eventRepository.getAllEvents(function(errors, events){
+		getAllEvents: function(callback) {
+			eventRepository.getAllEvents(function(errors, events) {
 				callback(errors, events)
 			})
 		},
 
-		createEvent: function(event, callback){
-	
-			// Validate the event.
-			// const errors = eventValidator.getErrorsNewEvent(event)
-			
-			// if(0 < errors.length){
-			// 	callback(errors, null)
-			// 	return
-			// }
-		
-			
+		createEvent: function(event, callback) {
 			eventRepository.createEvent(event, callback)			
 		},
 
-		getEventsByDate: function(date, callback){
+		getEventsByDate: function(date, callback) {
 			eventRepository.getEventsByDate(date, callback)
 		},
 
-		getEventById: function(date, id, callback){
+		getEventById: function(date, id, callback) {
 			eventRepository.getEventById(date, id, callback)
+		},
+
+		updateEventById: function(event, callback) {
+			eventRepository.updateEventById(event, callback)
+		},
+
+		deleteEventById: function(id, callback) {
+			eventRepository.deleteEventById(id, callback)
 		}
 	}
 }

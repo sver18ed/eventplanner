@@ -64,6 +64,9 @@
 			<div class="navbar-item">
 				<div class="buttons">
 					{{#if isLoggedIn}}
+					<a class="navbar-item">
+						<strong>{{username}}</strong>
+					</a>
 					<form action="/accounts/logout" method="POST">
 						<input class="button is-dark" type="submit" value="Logout">
 					</form>

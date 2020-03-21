@@ -1,6 +1,5 @@
 const awilix = require('awilix')
 const bcrypt = require('bcrypt')
-const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const express = require('express')
 const expressHandlebars = require('express-handlebars')
@@ -65,17 +64,12 @@ const redirectLogin = (function(request, response, next){
 	}
 })
 
-// Add info about if the user is logged in or not.
+// Check if a user is logged in.
 app.use(function(request, response, next){
 	response.locals.isLoggedIn = request.session.isLoggedIn
+	response.locals.username = request.session.username
 	next()
 })
-
-// Setup bodyParser
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({
-	extended: false
-}))
 
 // Setup express-handlebars.
 app.engine('hbs', expressHandlebars({
@@ -91,18 +85,3 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use('/', variousRouter)
 app.use('/accounts', theAccountRouter)
 app.use('/events', theEventRouter)
-
-// If we get this far it's 404
-app.use(function(request, response, next){
-	const error = new Error('404 - Not found :(')
-	error.status = 404
-	next(error)
-  });
-
-app.use(function(error, request, response, next){
-	response.locals.message = error.message
-	response.locals.error = error
-
-	response.status(error.status || 500)
-	response.render('error.hbs')
-})

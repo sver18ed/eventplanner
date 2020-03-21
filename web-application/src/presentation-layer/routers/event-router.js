@@ -6,8 +6,6 @@ module.exports = function({eventManager}){
 
 	router.get("/", function(request, response){
 		eventManager.getAllEvents(function(errors, events){
-			//console.log(errors, events)
-			//request.session = null
 			const model = {
 				errors: errors,
 				events: events
@@ -39,7 +37,7 @@ module.exports = function({eventManager}){
 	router.post("/create", function(request, response){
 		
 		const title = request.body.title
-		const username = request.session.key
+		const username = request.session.username
 		const description = request.body.description
 		const date = request.body.date
 
@@ -49,16 +47,14 @@ module.exports = function({eventManager}){
 			description: description, 
 			date: date
 		}
-		
-		// if(response.locals.isLoggedIn){
-		// 	validationErrors.push("Not logged in")
-		// }
-		
-		// TODO: you probably want to use other validation rules (min/max length on username, min/max values on age).
-			
-		eventManager.createEvent(event, function(errors, id){
-			response.redirect("/events/"+date+"/"+id)
-		})		
+
+		if (request.session.username) {
+			eventManager.createEvent(event, function(errors, id){
+				response.redirect("/events/"+date+"/"+id)
+			})	
+		} else {
+			response.send("You need to login to create event...")
+		}
 	})
 
 	router.get('/:date', function(request, response){
@@ -72,8 +68,7 @@ module.exports = function({eventManager}){
 				date: date
 			}
 			response.render("events-list-all-on-date.hbs", model)
-		})
-		
+		})	
 	})
 
 	// GET /events/:date/create
@@ -84,7 +79,7 @@ module.exports = function({eventManager}){
 	router.post('/:date/create', function(request, response){
 		
 		const title = request.body.title
-		const username = request.session.key
+		const username = request.session.username
 		const description = request.body.description
 		const date = request.params.date
 
@@ -94,18 +89,17 @@ module.exports = function({eventManager}){
 			description: description, 
 			date: date
 		}
-		
-		// if(response.locals.isLoggedIn){
-		// 	validationErrors.push("Not logged in")
-		// }
-		
-		// TODO: you probably want to use other validation rules (min/max length on username, min/max values on age).
-			
-		eventManager.createEvent(event, function(errors, id){
-			response.redirect("/events/"+date+"/"+id)
-		})		
+
+		if (request.session.username) {
+			eventManager.createEvent(event, function(errors, id){
+				response.redirect("/events/"+date+"/"+id)
+			})	
+		} else {
+			response.send("You need to login to create event...")
+		}
 	})
 
+	// GET /events/:date/:id
 	router.get('/:date/:id', function(request, response){
 		
 		const date = request.params.date
@@ -119,6 +113,46 @@ module.exports = function({eventManager}){
 			response.render("events-show-one.hbs", model)
 		})
 		
+	})
+
+	// UPDATE /events/update/:date/:id
+	router.post('/update/:date/:id', function(request, response){
+		
+		const date = request.params.date
+		const id = request.params.id
+
+		eventManager.getEventById(date, id, function(errors, event){
+
+			if (request.session.username == event.accountUsername) {
+				eventManager.updateEventById(event, function(errors, event){
+					const model = {
+						errors: errors,
+						event: event
+					}
+					response.render("events-show-one.hbs", model)
+				})
+			} else {
+				response.send("You are not allowed to update this event!")
+			}
+		})
+	})
+
+	// DELETE /events/delete/:date/:id
+	router.post('/delete/:date/:id', function(request, response){
+
+		const date = request.params.date
+		const id = request.params.id
+
+		eventManager.getEventById(date, id, function(errors, event){
+
+			if (request.session.username == event.accountUsername) {
+				eventManager.deleteEventById(id, function(errors, event){
+					response.redirect("/events/"+date+"/")
+				})
+			} else {
+				response.send("You are not allowed to delete this event!")
+			}
+		})
 	})
 
 	return router

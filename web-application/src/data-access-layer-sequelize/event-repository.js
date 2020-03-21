@@ -21,12 +21,7 @@ module.exports = function({}){
 	})
 
 	return {
-
-		/*
-		Retrieves all events ordered by title.
-		Possible errors: databaseError
-		Success value: The fetched events in an array.
-		*/
+		
 		getAllEvents: function(callback){
 
 			Event.findAll({raw: true}).then(function(allEvents){
@@ -47,11 +42,7 @@ module.exports = function({}){
 				callback(['databaseError'], null)
 			})	
 		},
-		/*
-		Retrieves the event with the given id.
-		Possible errors: databaseError
-		Success value: The fetched event, or null if no event has that id.
-		*/
+
 		getEventById: function(id, callback){
 
 			Event.findOne({
@@ -63,12 +54,7 @@ module.exports = function({}){
 				callback(['databaseError'], null)
 			})	
 		},
-		/*
-		Creates a new event.
-		event: {title: "The Title", description: "The description", date: "The date"}
-		Possible errors: databaseError, usernameTaken
-		Success value: The id of the new account.
-		*/
+
 		createEvent: function(event, callback){
 
 			Event.create({

@@ -1,4 +1,4 @@
-<div class="columns is-centered" style="margin-top: 10%;">
+<div class="columns is-centered" style="margin-top: 5%;">
 	<div class="column">
 	{{#if errors.length}}
 		<p>Oh no, something went wrong:</p>
@@ -28,6 +28,11 @@
 							<p>
 								{{event.description}}
 							</p>
+					</div>
+					<div class="columns is-right">
+						<form action="/events/delete/{{event.date}}/{{event.id}}" method="POST">
+							<input class="button is-small is-danger" type="submit" value="Delete Event">
+						</form>
 					</div>
 				</div>
 						
