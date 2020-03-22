@@ -26,6 +26,16 @@ module.exports = function({eventRepository}) {
 
 		deleteEventById: function(id, callback) {
 			eventRepository.deleteEventById(id, callback)
+		},
+
+		addAttendantToEvent: function(id, username, callback) {
+			eventRepository.addAttendantToEvent(id, username, callback)
+		},
+
+		getAllAttendants: function(id, callback) {
+			eventRepository.getAllAttendants(id, function(errors, attendants) {
+				callback(errors, attendants)
+			})
 		}
 	}
 }

@@ -33,29 +33,29 @@ module.exports = function({}){
 			})
 		},
 
-		getEventById: function(date, id, callback){
+		getEventById: function(date, id, callback) {
 		
-			const query = ` SELECT id, title, accountUsername, description, date FROM events WHERE date = ? AND id = ? LIMIT 1`
+			const query = ` SELECT id, title, host, description, date FROM events WHERE date = ? AND id = ? LIMIT 1`
 			const values = [date, id]
 			
-			db.query(query, values, function(error, events){
-				if(error){
+			db.query(query, values, function(error, events) {
+				if(error) {
 					callback(['databaseError'], null)
-				}else{
+				} else {
 					callback([], events[0])
 				}
 			})
 		},
 
-		createEvent: function(event, callback){
+		createEvent: function(event, callback) {
 		
-			const query = `INSERT INTO events (title, accountUsername, description, date) VALUES (?, ?, ?, ?)`
-			const values = [event.title, event.accountUsername, event.description, event.date]
+			const query = `INSERT INTO events (title, host, description, date) VALUES (?, ?, ?, ?)`
+			const values = [event.title, event.host, event.description, event.date]
 			
-			db.query(query, values, function(error, results){
-				if(error){
+			db.query(query, values, function(error, results) {
+				if(error) {
 					callback(['databaseError'], null)
-				}else{
+				} else {
 					callback([], results.insertId)
 				}
 			})		
@@ -63,13 +63,13 @@ module.exports = function({}){
 
 		updateEventById: function(event, callback) {
 
-			const query = "UPDATE events SET title = ?, description = ?, date = ? WHERE id = ?"
+			const query = `UPDATE events SET title = ?, description = ?, date = ? WHERE id = ?`
 			const values = [event.title, event.description, event.date, event.id]
 		
 			db.query(query, values, function(error) {
-				if(error){
+				if(error) {
 					callback(['databaseError'], null)
-				}else{
+				} else {
 					callback(error)
 				}
 			})
@@ -77,14 +77,42 @@ module.exports = function({}){
 
 		deleteEventById: function(id, callback) {
 
-			const query = "DELETE FROM events WHERE id = ?"
+			const query = `DELETE FROM events WHERE id = ?`
 			const values = [id]
 		
 			db.query(query, values, function(error) {
-				if(error){
+				if(error) {
 					callback(['databaseError'], null)
-				}else{
+				} else {
 					callback(error)
+				}
+			})
+		},
+
+		addAttendantToEvent: function(id, username, callback) {
+
+			const query = `INSERT INTO attendants (eventId, attendant) VALUES (?, ?)`
+			const values = [id, username]
+
+			db.query(query, values, function(error) {
+				if(error) {
+					callback(['databaseError'], null)
+				} else {
+					callback(error)
+				}
+			})
+		},
+
+		getAllAttendants: function(id, callback) {
+
+			const query = `SELECT * FROM attendants WHERE eventId = ?`
+			const values = [id]
+
+			db.query(query, values, function(error, attendants) {
+				if(error) {
+					callback(['databaseError'], null)
+				} else {
+					callback([], attendants)
 				}
 			})
 		}

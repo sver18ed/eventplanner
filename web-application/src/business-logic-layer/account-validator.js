@@ -1,5 +1,7 @@
 const MIN_USERNAME_LENGTH = 3
-const MAX_USERNAME_LENGTH = 10
+const MAX_USERNAME_LENGTH = 12
+const MIN_PASSWORD_LENGTH = 6
+const MAX_PASSWORD_LENGTH = 30
 
 exports.getErrorsNewAccount = function(account){
 	
@@ -15,5 +17,4 @@ exports.getErrorsNewAccount = function(account){
 	}
 	
 	return errors
-	
 }

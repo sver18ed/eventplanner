@@ -7,7 +7,7 @@ module.exports = function({}){
 		title: {
 			type: Sequelize.STRING
 		},
-		accountUsername: {
+		host: {
 			type: Sequelize.STRING
 		},
 		description: {
@@ -21,7 +21,7 @@ module.exports = function({}){
 	})
 
 	return {
-		
+
 		getAllEvents: function(callback){
 
 			Event.findAll({raw: true}).then(function(allEvents){
@@ -59,7 +59,7 @@ module.exports = function({}){
 
 			Event.create({
 				title: event.title,
-				accountUsername: event.accountUsername,
+				host: event.host,
 				description: event.description,
 				date: event.date
 			}).then(function(createdEvent){

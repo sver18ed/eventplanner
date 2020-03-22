@@ -29,18 +29,18 @@ module.exports = function({}){
 				}else{
 					callback([], accounts[0])
 				}
-			})
-			
+			})	
 		},
 
 		createAccount: function(account, callback){
 		
-			const query = `INSERT INTO accounts (username, password) VALUES (?, ?)`
-			const values = [account.username, account.password]
-			
+			const query = `INSERT INTO accounts (username, firstname, lastname, password) VALUES (?, ?, ?, ?)`
+			const values = [account.username, account.firstname, account.lastname, account.password]
+
 			db.query(query, values, function(error, results){
 				if(error){
 					// TODO: Look for usernameUnique violation.
+
 					callback(['databaseError'], null)
 				}else{
 					callback([], results.insertId)

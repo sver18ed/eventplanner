@@ -15,7 +15,8 @@ module.exports = function({accountManager}) {
 	
 	// POST /register
 	router.post("/register", function(request, response) {
-		const account = {username: request.body.username, password: request.body.password}
+		const account = {username: request.body.username, firstname: "erik", lastname: "blabla", password: request.body.password
+		}
 	
 		if (request.session.username) {
 			response.redirect('/')

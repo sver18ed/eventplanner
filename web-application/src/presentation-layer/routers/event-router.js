@@ -14,16 +14,6 @@ module.exports = function({eventManager}){
 		})
 	})
 
-	router.get("/calendar", function(request, response){
-		eventManager.getAllEvents(function(errors, events){
-			const model = {
-				errors: errors,
-				events: events
-			}
-			response.render("calendar.hbs", model)
-		})
-	})
-
 	// GET /events/create
 	router.get("/create", function(request, response){
 		if(request.session.username){
@@ -43,14 +33,16 @@ module.exports = function({eventManager}){
 
 		const event = { 
 			title: title, 
-			accountUsername: username,
+			host: username,
 			description: description, 
 			date: date
 		}
 
 		if (request.session.username) {
-			eventManager.createEvent(event, function(errors, id){
-				response.redirect("/events/"+date+"/"+id)
+			eventManager.createEvent(event, function(errors, id) {
+				eventManager.addAttendantToEvent(id, username, function(errors) {
+					response.redirect("/events/"+date+"/"+id)
+				})
 			})	
 		} else {
 			response.send("You need to login to create event...")
@@ -85,7 +77,7 @@ module.exports = function({eventManager}){
 
 		const event = { 
 			title: title, 
-			accountUsername: username, 
+			host: username, 
 			description: description, 
 			date: date
 		}
@@ -106,13 +98,27 @@ module.exports = function({eventManager}){
 		const id = request.params.id
 		
 		eventManager.getEventById(date, id, function(errors, event){
-			const model = {
-				errors: errors,
-				event: event
-			}
-			response.render("events-show-one.hbs", model)
+			eventManager.getAllAttendants(id, function(errors, attendants) {
+				const model = {
+					errors: errors,
+					event: event,
+					attendants: attendants
+				}			
+				response.render("events-show-one.hbs", model)
+			})
+		})	
+	})
+
+	// JOIN /events/join/:date/:id
+	router.post('/join/:date/:id', function(request, response){
+
+		const date = request.params.date
+		const id = request.params.id
+		const username = request.session.username
+
+		eventManager.addAttendantToEvent(id, username, function(errors) { 
+			response.redirect("/events/"+date+"/"+id)
 		})
-		
 	})
 
 	// UPDATE /events/update/:date/:id
@@ -123,7 +129,7 @@ module.exports = function({eventManager}){
 
 		eventManager.getEventById(date, id, function(errors, event){
 
-			if (request.session.username == event.accountUsername) {
+			if (request.session.username == event.host) {
 				eventManager.updateEventById(event, function(errors, event){
 					const model = {
 						errors: errors,
@@ -145,7 +151,7 @@ module.exports = function({eventManager}){
 
 		eventManager.getEventById(date, id, function(errors, event){
 
-			if (request.session.username == event.accountUsername) {
+			if (request.session.username == event.host) {
 				eventManager.deleteEventById(id, function(errors, event){
 					response.redirect("/events/"+date+"/")
 				})

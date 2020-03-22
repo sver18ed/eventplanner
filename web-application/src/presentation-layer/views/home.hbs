@@ -194,23 +194,16 @@
                         else {
                             let cell = document.createElement("td");
                             let dateAnchor = document.createElement("a");
-							let eventAnchor = document.createElement("a");
 							let linebreak = document.createElement("br");
                             let cellText = document.createTextNode(date);
                             if (date === today.getDate() && year === today.getFullYear() && month === today.getMonth()) {
-                                cell.classList.add("bg-info");
+                                cell.classList.add("is-selected");
                             } // color today's date
+                            dateAnchor.classList.add("has-text-centered")
                             cell.appendChild(dateAnchor);
                             dateAnchor.appendChild(cellText);
                             dateAnchor.setAttribute("href", "./events/"+year+"-"+(month+1)+"-"+date);
-
 							cell.appendChild(linebreak)
-
-							cell.appendChild(eventAnchor);
-                            eventAnchor.appendChild(document.createTextNode("event.title"));
-
-                            //eventAnchor.setAttribute("href", "./events/"+"event.title"+"/"+"event.id";
-
                             row.appendChild(cell);
                             date++;
                         }
